@@ -13,14 +13,10 @@ class token_manager:
 			return self.token_list[index];
 
 	def is_empty(self):
-		if self.token_index  >=  len(self.token_list):
-			return True;
-		else:
-			return False;
+		return self.token_index  >=  len(self.token_list);
 
 	def pop_token(self):
 		obj = self.token_list[self.token_index];
-		#print("pop_token",obj.get_key());
 		self.token_index = self.token_index + 1;
 		return obj;
 
