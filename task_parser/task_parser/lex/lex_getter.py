@@ -2,6 +2,7 @@ from lex.condition_token import condition_token;
 from lex.identify_token import identify_token;
 import re;
 class lex_getter:
+	MAX_LENGTH = 32767;
 	def __init__(self):
 		self.token_list = [];
 		self.pattern_condition = re.compile(r"(\[\s*(\w+)\s*([=:<>])\s*([0-9]+)\])");
@@ -17,7 +18,7 @@ class lex_getter:
 			if not (be_made_condition or be_made_pattern):
 				break;
 			else:
-				endpos = 32676;
+				endpos = MAX_LENGTH;
 				token_where = 0;
 				if be_made_condition and endpos_1 < endpos:
 						endpos = endpos_1;
