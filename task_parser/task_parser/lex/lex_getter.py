@@ -2,9 +2,12 @@ from lex.condition_token import condition_token;
 from lex.identify_token import identify_token;
 import re;
 class lex_getter:
+	MAX_LENGTH = 32767;
 	def __init__(self):
 		self.token_list = [];
+		# condition [kill:99] [kill > 99]
 		self.pattern_condition = re.compile(r"(\[\s*(\w+)\s*([=:<>])\s*([0-9]+)\])");
+		# 操作符 (   )  ||  &&
 		self.pattern_token = re.compile("(\()|(\))|(\|\|)|(\&\&)");
 
 	def parse(self,string_line):
@@ -12,19 +15,20 @@ class lex_getter:
 		while flag:
 			if len(string_line) <= 0:
 				break;
+			# 两个condition和操作符不会相邻所以可以一次循环中 必然出现一次conditon 一次操作符
+			#查询是否还有condition
 			be_made_condition,a_condition_token,endpos_1 = self.make_condition_token(string_line);
+			#查询是否还有操作符
 			be_made_pattern,a_identify_token,endpos_2 = self.make_pattern_token(string_line);
 			if not (be_made_condition or be_made_pattern):
 				break;
 			else:
-				endpos = 32676;
+				endpos = MAX_LENGTH;
 				token_where = 0;
 				if be_made_condition and endpos_1 < endpos:
 						endpos = endpos_1;
-						#print("log_1 else",endpos);
 						token_where = 1;
 				if be_made_pattern and endpos_2 < endpos:
-						#print("log_2 else",endpos);
 						endpos = endpos_2;
 						token_where = 2;
 

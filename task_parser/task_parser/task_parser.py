@@ -1,6 +1,3 @@
-#expression = term {(&&)||(||)term};
-#term = condtion || (extpretion);
-#     a||b||c && e || f 
 import lex.lex_getter;
 import lex.token_manager;
 import expr.condition_tree;
@@ -9,19 +6,27 @@ class task_parser:
 	def __init__(self,token_manager):
 		self.token_manager = token_manager;
 		self.node_list = [];
-
+	"""
+	语法树表达式
+	expression:  term { operand term} 
+	kill > 9 && gold > 10 || wood  =  5 || silver < 10 && copper < 3
+		                         op &&
+			op  ||
+	
+		op  >
+     kill > 9        gold  > 10      silver < 10	  copper < 3
+	
+	当每次遇到与之前的tree的操作符不一样的时候就要重新建树,语法规则就是这样
+	"""
 	def expression(self):
-		#print("in expression");
 		condition_tree_1 = expr.condition_tree.condition_tree();
 		condition_tree_1.add_child(self.term());
 
 		while(self.token_manager.peak_token_n(1) and  (self.token_manager.peak_token_n(1).get_key() == "||" or self.token_manager.peak_token_n(1).get_key() == "&&")):
 			if(condition_tree_1.compare_operand(self.token_manager.peak_token_n(1))):
-				#print("in else one");
 				self.token_manager.pop_token();
 				condition_tree_1.add_child(self.term());
 			else:
-				#print("in else 2");
 				condition_tree_2 = expr.condition_tree.condition_tree();
 				condition_tree_2.add_child(condition_tree_1);
 				condition_tree_2.set_operand(self.token_manager.pop_token());
@@ -30,8 +35,10 @@ class task_parser:
 		return condition_tree_1;
 
 
+	"""
+		语法树表达式:term = condition | (expression)
+	"""
 	def term(self):
-		#print("in term");
 		token = self.token_manager.pop_token();
 		if token.is_condtion_token():
 			leaf = expr.condition_leaf.condition_leaf(token.get_key(),token.get_attribute_1());

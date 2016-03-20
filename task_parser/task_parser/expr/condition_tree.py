@@ -1,3 +1,5 @@
+
+# 语法树
 class condition_tree:
 	def __init__(self):
 		self.children_list = [];
@@ -20,6 +22,7 @@ class condition_tree:
 			self.operand = operand;
 			return True;
 
+	#递归遍历子树来计算evalue,来计算子树是否符合条件
 	def evalue(self):
 		if self.last_value:
 			print(self.operand.get_key(),"use_last_key");
