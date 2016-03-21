@@ -4,6 +4,8 @@ import time;
 import struct;
 import sys;
 log = open("client.txt","w+");
+
+
 class ReadWriteThread(threading.Thread):
 	def __init__(self,socket):
 		super(ReadWriteThread,self).__init__();
