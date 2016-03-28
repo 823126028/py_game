@@ -8,14 +8,16 @@ class BTNode:
         self.last_tick_time = 0;
         self.cool_down = cool_down;
         self.name = name;
-        self.children = {};
+        self.children = [];
         self.black_board = black_board;
 
     def add_child(self,node):
-        self.children[node.name] = node;
+        self.children.append(node);
 
     def remove_child(self,node):
-        return self.children.pop(node.name);
+        for n in self.children:
+            if n == node:
+                self.children.remove(node);
 
     def is_cool_down(self):
         is_cool_down = self.last_tick_time + self.cool_down < time.time();

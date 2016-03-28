@@ -12,7 +12,6 @@ class PrioritySelectorTree(BTNode):
         done = self.__active_node.tick();
         if done:
             self.clear_expired_node();
-            self.__active_node = None;
             return True;
         return False;
 
@@ -28,10 +27,10 @@ class PrioritySelectorTree(BTNode):
 
 
     def do_evalue(self):
-        for item in self.children.items():
-            if item[1].meet_condition():
-                if item[1] != self.__active_node:
+        for item in self.children:
+            if item.meet_condition():
+                if item != self.__active_node:
                     self.clear_expired_node();
-                self.__active_node = item[1];
+                self.__active_node = item;
                 return True;
         return False;
