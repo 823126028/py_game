@@ -1,0 +1,4 @@
+AI_BATTLE  模拟一些即时类战略游戏的AI战斗的项目
+1. 使用分层事件处理机制来处理AI和玩家的行为来降低耦合性,把玩家事件分为frame_effect(每一帧处理的时间), action_effect(玩家动作和技能), filter_effect(未经过滤伤害和技能), real_effect(实际的伤害和技能)。
+2. 使用行为树作为AI_NODE,分为(结构型)PrioritySelector(选择执行树), SequenceSelector(顺序执行树), ParallelSelector(并行执行树)。
+(Precondition) 条件型 和(Action) 实际动作型。通过行为树来代替状态机来操作AI
